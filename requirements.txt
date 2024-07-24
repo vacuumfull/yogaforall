@@ -1,0 +1,8 @@
+django==5.0.6
+psycopg2-binary==2.9.9
+gunicorn==22.0.0
+honcho==1.1.0
+setuptools==70.1.0
+Pillow==10.3.0
+requests==2.32.3
+django_uuslug==2.0.0

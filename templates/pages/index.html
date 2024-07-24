@@ -1,0 +1,444 @@
+{% extends "base.html" %}
+{% load static %} 
+
+{% block title %}
+    {% if meta %}
+        {{ meta.title }}
+    {% else %}
+        Главная страница студии BLINK
+    {% endif %}
+{% endblock title %}
+
+{% block description %}
+    {% if meta %}
+        {{ meta.description }}
+    {% else %}
+        Мы - фотостудия BLINK
+    {% endif %}
+{% endblock description %}
+
+{% block content %}
+
+<section class="__section __section_bg sectionbg1" >
+    <div class="own-container">
+        <div class="flex-wrapper __height">
+            <div class="block __flex_center">
+                <div class="">
+                    <div class="sectionhead">
+                        <h2>фото Cтудия blink</h2>
+                    </div>
+                    <p>Интерьреная фотостудия в Санкт-Петербурге, расположенная у метро Адмиралтейская. Экономичная аренда,  всевозможные интерьеры и реквизиты, зала с природными элементами, античные статуты, неоновые витражи, боксерский ринг, зал для хромакея и широкий выбор съемочного оборудования.</p>
+                    <p class="data">Адрес: <span>Невский проспект 11</span>, телефон <span>+7 (812) 392-79-53</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mask"></div>
+</section>
+
+{% if workers %}
+<section class="__section __black_bg" >
+    <div class="own-container">
+        <div class="flex-wrapper">
+            <div class="block">
+                <div class="sectionhead">
+                    <h2>Наши мастера</h2>
+                </div>
+            </div>
+        </div>
+        <div class="flex-wrapper block">
+            {% for worker in workers %}
+                <div class="clearblock">
+                    <div class="overlay_info">
+                        <a href="{% url 'worker-detail' slug=worker.slug %}">{{ worker.name }}</a>
+                    </div>
+                    <img class="responsive-img" src="/media/{{ worker.photo }}">
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+</section>
+{% endif %}
+<section class="__section __servicesection" >
+    <div class="own-container">
+        <div class="flex-wrapper">
+            <div class="block">
+                <div class="sectionhead">
+                    <h2>Услуги</h2>
+                </div>
+            </div>
+        </div>
+        {% if services %}
+            <div class="flex-wrapper">
+                {% for service in services %}
+                    <div class="block serviceblock">
+                        <div class="servicehead">
+                            <h4>{{ service.name }}</h4>
+                        </div>
+                        <div class="servicecontent">
+                            <p>{{ service.content }}</p>
+                            <p class="price">от <span>{{ service.from_price }}</span> ₽</p>
+                            <button data-service="{{ service.slug }}" class="btn __lg">Заказать</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+<section class="__section __section_bg sectionbg4" >
+    <div class="own-container">
+        <div class="flex-wrapper">
+            <div class="block">
+                <div class="sectionhead">
+                    <h2>Студии</h2>
+                </div>
+                <p>
+                    Все залы, обставленные уникальным интерьером и оснащенные профессиональным оборудованием, создают идеальные условия для воплощения ваших идей в жизнь, и это наша главная цель.
+                    Удобное местоположение наших студий обеспечивает простоту доступа из любой точки города. Защитная охраняемая парковка гарантирует безопасность вашего автомобиля. Зоны ожидания и гримерные комнаты создают комфортные условия для подготовки к съемке. Наша команда всегда готова предоставить необходимую информацию и помочь вам решить любые проблемы во время съемок.
+                </p>
+                <p>Blink - это крупная профессиональная фотостудия в Санкт-Петербурге. Более 1000 м2 творческого пространства, которое трансформируется под ваши запросы.</p>
+            </div>
+        </div>
+        <div class="flex-wrapper block">
+            {% for studio in studios %}
+                <div class="clearblock">
+                    <div class="overlay_info">
+                        <a href="{% url 'studio-detail' pk=studio.pk %}">{{ studio.name }}</a>
+                    </div>
+                    <img class="responsive-img" src="/media/{{ studio.first_image }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="mask"></div>
+</section>
+
+
+{% if gallerys %}
+<section class="__section gallery __section_bg sectionbg3" >
+    <div class="own-container">
+        <div class="flex-wrapper">
+            <div class="block">
+                <div class="sectionhead">
+                    <h2>Галерея</h2>
+                </div>
+            </div>
+        </div>
+        <div class="flex-wrapper block">
+            {% for gallery in gallerys %}
+                <div class="clearblock">
+                    <div class="overlay_info">
+                        <a href="{% url 'gallery-detail' pk=gallery.pk %}">{{ gallery.name }}</a>
+                    </div>
+                    <img class="responsive-img" src="/media/{{ gallery.first_image }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="mask"></div>
+</section>
+{% endif %}
+
+{% if sections %}
+    {% for section in sections %}
+        <section class="__section" id="section_{{ section.id }}" {% if section.background_image %} style="background-image: url({{ section.background_image.src }});background-size: cover;"{% endif %}>
+            <div class="own-container">
+                <div class="flex-wrapper">
+                    <div class="block">
+                        <div class="sectionhead">
+                            <h2>{{ section.header }}</h2>
+                        </div>
+                        {% if section.header_small %}
+                            <h3>{{ section.header_small }}</h3>
+                        {% endif %}
+                        <div>
+                            {% autoescape on %}
+                                {{ section.content }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                    {% if section.image %}
+                        <div class="block">
+                            <div class="image">
+                                <img class="responsive-img" src="{{ section.image.src }}">
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+{% endif %}
+
+
+
+  <!-- Modal Structure -->
+   
+  <div id="modal_success" class="modal">
+    <div class="modal-content">
+      <h4>Спасибо!</h4>
+      <p>В скором времени мы свяжемся с вами.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Закрыть</a>
+    </div>
+  </div>   
+
+  <div id="form_contact" class="modal">
+    <div class="modal-content">
+      <p>Укажите свои контакты и мы с вами свяжемся.</p>
+      <form  method="post" enctype="multipart/form-data" action="" novalidate >
+        <div class="errorblock">
+            <p></p>
+        </div>
+        <div class="input-block input-field">
+            <input class="input-field" type="text" name="name" id="contact_name" requred>
+            <label for="contact_name" class="">Вас зовут</label>
+        </div>
+        <div class="input-block input-field">
+            <input class="input-field" type="text" name="phone" id="contact_phone">
+            <label for="contact_phone" class="">Номер телефона</label>
+        </div>
+        <div class="input-block input-field">
+            <input class="input-field" type="email" name="email" id="contact_email">
+            <label for="contact_email" class="">Почта</label>
+        </div>
+        <div class="input-block input-field">
+            <textarea name="content" cols="40" rows="10" name="content"  class="materialize-textarea" required="" id="contact_content"></textarea>
+            <label for="contact_content">Если есть что рассказать - расскажите</label>
+        </div>
+        <div class="input-block input-field selected_service" style="display: none;">
+            <p>Вы выбрали услугу</p>
+            <p>
+                <label>
+                  <input type="checkbox" class="filled-in" name="service" checked="checked" value="" />
+                  <span></span>
+                </label>
+            </p>
+        </div>
+        <div class="btnblock">
+            <button class="btn __lg" type="submit">Отправить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block js %}
+<script>
+let sections = document.querySelectorAll("section"),
+    firstBlock = sections[0],
+    buttons = document.querySelectorAll(".serviceblock button"),
+    formContact = document.getElementById("form_contact"),
+    callMe = document.getElementById("just_call_me"),
+    callMeMob = document.getElementById("just_call_me_mob")
+
+
+
+
+formContact.addEventListener('submit', (event) => {
+    event.preventDefault()
+    let name = document.querySelector("#form_contact input[name=name]").value,
+        phone = document.querySelector("#form_contact input[name=phone]").value,
+        email = document.querySelector("#form_contact input[name=email]").value,
+        content = document.querySelector("#form_contact textarea[name=content]").value,
+        service = document.querySelector("#form_contact input[name=service]").value;
+
+    if (name === ""){
+        document.querySelector("#form_contact .errorblock p").innerText = "Как к вам обращаться, представьтесь пожалуйста"
+        return false
+    }
+    if (phone === "" && email === ""){
+        console.log(`phone ${phone} email ${email}`)
+        document.querySelector("#form_contact .errorblock p").innerText = "Укажите почту или номер тетефона"
+        return false
+    }
+
+    fillDataAndSend(name, phone, email, content, service)
+
+    document.querySelector("#form_contact input[name=name]").value = ""
+    document.querySelector("#form_contact input[name=phone]").value = ""
+    document.querySelector("#form_contact input[name=email]").value = ""
+    document.querySelector("#form_contact textarea[name=content]").value = ""
+    document.querySelector("#form_contact input[name=service]").value = ""
+})
+
+callMe.addEventListener('click', function(event){
+    event.preventDefault()
+    let modal = M.Modal.init(formContact)
+    modal.open()
+})
+callMeMob.addEventListener('click', function(event){
+    event.preventDefault()
+    document.querySelector('.sidenav-overlay').click()
+    let modal = M.Modal.init(formContact)
+    modal.open()
+})
+
+let lastScrollTop = 0,
+    absOpacity = 1
+window.addEventListener('scroll', (event) => {
+    let position = window.pageYOffset || document.documentElement.scrollTop,
+        startScroll = 500,
+        opacity = 0.7,
+        leftOpacity = 0.3,
+        header = document.querySelector('.header');
+    let mask = firstBlock.querySelector('.mask')
+
+    if (position > lastScrollTop) {
+        console.log('down')
+        header.classList.add('closed')
+        if (window.pageYOffset > startScroll && window.pageYOffset < firstBlock.offsetHeight){
+            let offsetStart = window.pageYOffset - startScroll,
+                leftHeight = firstBlock.offsetHeight - window.pageYOffset,
+                height = firstBlock.offsetHeight - startScroll,
+                scrolledOpacity = (offsetStart * leftOpacity) / height
+        
+            mask.style.background = `rgba(26, 26, 29, ${opacity + scrolledOpacity})`;
+        }
+        if (window.pageYOffset > firstBlock.offsetHeight){
+            firstBlock.classList.remove("__active");
+            console.log(firstBlock.className)
+        }
+    } else if (position < lastScrollTop) {
+        console.log('up')
+        header.classList.remove('closed')
+        if (window.pageYOffset > startScroll && window.pageYOffset < firstBlock.offsetHeight){
+            let offsetStart = window.pageYOffset - startScroll,
+                leftHeight = firstBlock.offsetHeight - window.pageYOffset,
+                height = firstBlock.offsetHeight - startScroll,
+                scrolledOpacity = (leftHeight * leftOpacity) / height;
+
+            mask.style.background = `rgba(26, 26, 29, ${absOpacity - scrolledOpacity})`;
+        }
+        if (window.pageYOffset < startScroll){
+            firstBlock.classList.add("__active");
+        }
+    } 
+    lastScrollTop = position <= 0 ? 0 : position;
+}, false)
+
+function fillDataAndSend(name, phone, email, content, service){
+    let url = '/api/appeal/add/'
+
+    let formData = new FormData();
+        let overlay =  document.querySelectorAll('.modal-overlay')
+    formData.append('name', name)
+    formData.append('phone', phone)
+    formData.append('email', email)
+    formData.append('content', content)
+    if (service !== null && service !== undefined){
+        formData.append('service', service)
+    }
+
+    postData(url, formData).then(result => {
+        if (result['result'] !== 0){
+            document.querySelector("#form_contact .errorblock p").innerText = ""
+        }
+        if (overlay.length > 0){
+            overlay[0].click()
+        }
+
+        let modalSuccess = document.getElementById('modal_success'),
+            modalS = M.Modal.init(modalSuccess);
+
+        modalS.open()
+        setTimeout(() => {
+            document.querySelector('#form_contact .selected_service').style.display = 'none';
+            document.querySelector('#form_contact .selected_service label input').checked = false
+            modalS.close()
+        }, 2000)
+    }).catch(e => {
+        console.error(e)
+    })
+}
+
+buttons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+        event.preventDefault()
+
+        let modal = M.Modal.init(formContact),
+            service = event.target.dataset.service,
+            serviceName = event.target.parentElement.previousElementSibling.querySelector('h4').innerText
+        console.log(`service => ${service}`)
+        if (service !== undefined){
+            document.querySelector('#form_contact .selected_service').style.display = 'block';
+            document.querySelector('#form_contact .selected_service label span').innerText = serviceName
+            document.querySelector('#form_contact .selected_service label input').checked = true
+            document.querySelector('#form_contact .selected_service label input').value = service
+        }
+        modal.open()
+    })
+})
+
+function reveal() {
+    for (let i = 0; i < sections.length; i++) {
+        if (i !== 0){
+            let windowHeight = window.innerHeight,
+                elementTop = sections[i].getBoundingClientRect().top,
+                elementVisible = 350;
+
+            if (elementTop < windowHeight - elementVisible) {
+                sections[i].classList.add("__active");
+            } else {
+                sections[i].classList.remove("__active");
+            }
+        }
+    }
+}
+      
+window.addEventListener("scroll", reveal);
+      
+
+document.addEventListener('DOMContentLoaded', function() {
+    let navs = document.querySelectorAll('.sidenav'),
+        options = {},
+        navInstances = M.Sidenav.init(navs, options);
+
+    firstBlock.classList.add("__active");
+});
+
+async function postData(url, formData){
+    let response = await fetch(url, {
+        method: "POST",
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        body: formData,
+    })
+    return response.json()
+}
+
+function hasClass(el, className)
+{
+    if (el.classList)
+        return el.classList.contains(className);
+    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+}
+
+function addClass(el, className)
+{
+    if (el.classList)
+        el.classList.add(className)
+    else if (!hasClass(el, className))
+        el.className += " " + className;
+}
+
+function removeClass(el, className)
+{
+    if (el.classList) {
+        el.classList.remove(className)
+    }
+    else if (hasClass(el, className))
+    {
+        var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+        el.className = el.className.replace(reg, ' ');
+    }
+}
+</script>
+
+{% endblock js %}

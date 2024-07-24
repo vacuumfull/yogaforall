@@ -1,0 +1,39 @@
+{% load static %}
+<header class="header">
+    <div class="own-container">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">
+                    <img src="{% static 'dist/img/logos/logo.png' %}">
+                </a>
+
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul class="list __right __hide_on_medium">
+                    {% if request.path == '/' %}
+                        <li><a data-section="contact" id="just_call_me" href="">Свазяться с нами</a></li>
+                        {% if menus %}
+                            {% for menu in menus %}
+                                <li><a data-section="section_{{ menu.id }}" href="">{{ menu.link }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    {% else %}
+                        <li><a href="/">Главная</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-demo">
+            {% if request.path == '/' %}
+                <li><a data-section="contact" id="just_call_me_mob" href="#">Свазяться с нами</a></li>
+                {% if menus %}
+                    {% for menu in menus %}
+                        <li><a data-section="section_{{ menu.id }}" href="">{{ menu.link }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                <li><a href="/">Главная</a></li>
+            {% endif %}
+        </ul>
+</header>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %} 
+
+{% block title %}
+    Упс, ошибочка вышла
+{% endblock title %}
+
+{% block description %}
+
+    Страница 404
+{% endblock description %}
+
+{% block content %}
+<section id="contact" class="contactframe __black">
+    <div class="own-container __full_height">
+        <div class="flex-wrapper __full_height">
+            <div class="__center">
+                <div class="flex-wrapper">
+                    <div class="block __left">
+                        <div class="contactinfo">
+                            <div class="contacthead">
+                                <h2>Ошибка 404</h2>
+                            </div>
+                            <p>Извините, нет такой страницы.</p>
+                        </div>
+                    </div>
+                    <div class="block">
+                        <img class="responsive-img" src="{% static 'dist/img/logo.png' %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock content %}

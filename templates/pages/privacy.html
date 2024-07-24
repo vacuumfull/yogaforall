@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %} 
+
+{% block title %}
+    {% if meta %}
+        {{ meta.title }}
+    {% else %}
+        Бриф на создание сайта
+    {% endif %}
+{% endblock title %}
+
+{% block description %}
+    {% if meta %}
+        {{ meta.description }}
+    {% else %}
+        Бриф на создание сайта
+    {% endif %}
+{% endblock description %}
+
+{% block content %}
+<section class="privacysection">
+    <div class="own-container">
+        <div class="flex-wrapper">
+            <div class="block">
+                <div class="briefhead">
+                    <h2>Политика конфиденциальности</h2>
+                </div>
+                <p class="brieftext">Политика</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
