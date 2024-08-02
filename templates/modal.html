@@ -1,0 +1,53 @@
+<div id="modal_success" class="modal-container __closed">
+  <div class="modal">
+      <div class="modal-content">
+        <div class="modal-close" data-id="modal_success">
+          <div class="close-lines"></div>
+          <div class="close-lines"></div>
+        </div>
+        <h4>Спасибо!</h4>
+        <p>В скором времени Я свяжусь с вами.</p>
+      </div>
+  </div>
+</div>
+
+<div id="form_contact" class="modal-container __closed">
+  <div class="modal">
+      <div class="modal-content">
+        <div class="modal-close" data-id="form_contact">
+          <div class="close-lines"></div>
+          <div class="close-lines"></div>
+        </div>
+        <p>Укажите свои контакты и я с вами свяжусь.</p>
+        <form  method="post" enctype="multipart/form-data" action="" novalidate >
+          <div class="errorblock">
+              <p></p>
+          </div>
+          <div class="input-block input-field">
+              <input class="input-field" type="text" name="name" id="contact_name" placeholder='Вас зовут' requred>
+          </div>
+          <div class="input-block input-field">
+              <input class="input-field" type="text" name="phone" id="contact_phone" placeholder='Номер телефона'>
+          </div>
+          <div class="input-block input-field">
+              <input class="input-field" type="email" name="email" id="contact_email" placeholder='Почта'>
+          </div>
+          <div class="input-block input-field">
+              <textarea name="content" cols="40" rows="10" name="content"  class="materialize-textarea" placeholder="Если есть что рассказать - расскажите" id="contact_content"></textarea>
+          </div>
+          <div class="input-block input-field selected_service" style="display: none;">
+              <p>Вы выбрали услугу</p>
+              <p>
+                  <label>
+                    <input type="checkbox" class="filled-in" name="service" checked="checked" value="" />
+                    <span></span>
+                  </label>
+              </p>
+          </div>
+          <div class="btnblock">
+              <button class="btn __lg" type="submit">Отправить</button>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>

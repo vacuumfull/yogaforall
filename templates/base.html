@@ -4,30 +4,25 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
-  
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+
+        {% include 'favicon.html' %}
 
         <link rel="stylesheet" href="{% static 'dist/css/style.css' %}">
-        <link rel="stylesheet" href="{% static 'dist/css/cycle.scss' %}"  rel="stylesheet/scss" type="text/css">
+
         <title>{% block title %}{% endblock title %}</title>
         <meta name="description" content="{% block description %}{% endblock description %}" >
     </head>
     <body>
         <main>
             {% include "header.html" %}
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated %}  
             {% endif %}
             {% block content %}
             {% endblock content %}
             {% include "footer.html" %}    
         </main>
-        <script type="text/javascript" src="{% static 'materialize/js/materialize.min.js' %}"></script>
+        <script src="{% static 'dist/js' %}/kute/polyfill.min.js"></script>
+        <script src="{% static 'dist/js' %}/kute/kute.min.js"></script>
         {% block js %}
         {% endblock js %}
     </body>

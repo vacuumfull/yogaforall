@@ -1,5 +1,3 @@
-from django.db import models
-
 import os
 from django.db import models
 from uuid import uuid4
@@ -26,4 +24,3 @@ class Appeal(models.Model):
     def __str__(self):
         return "{}: {}".format(self.name, self.email)
 
-# Create your models here.
