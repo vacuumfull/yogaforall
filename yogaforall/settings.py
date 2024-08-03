@@ -142,3 +142,5 @@ MEDIA_ROOT = 'dist/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TG_API_URL = f'https://api.telegram.org/bot{ os.getenv('TG_BOT_KEY', '') }/sendMessage?chat_id={ os.getenv('TG_CHAT_ID', '') }&text='

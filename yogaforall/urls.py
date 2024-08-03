@@ -20,9 +20,12 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from yogaforall.views import IndexView
 
+import api.urls
+
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
+    path('api/', include(api.urls))
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,26 @@
+<div class="items-slider">
+    {% for image in about.aboutimage_set.all %}
+        {% if forloop.counter0 == 0 %}
+        <div class="item-slider prev">
+            <img src="/media/{{ image.image }}">
+        </div>
+        {% elif forloop.counter0 == 1  %}
+        <div class="item-slider active">
+            <img src="/media/{{ image.image }}">
+        </div>
+        {% elif forloop.counter0 == 2  %}
+        <div class="item-slider next">
+            <img src="/media/{{ image.image }}">
+        </div>
+        {% else %}
+        <div class="item-slider">
+            <img src="/media/{{ image.image }}">
+        </div>
+        {% endif %}
+    {% endfor %}
+
+    <div class="button-container">
+        <div class="button-slider"><i class="fas fa-angle-left"></i></div>
+        <div class="button-slider"><i class="fas fa-angle-right"></i></div>
+    </div>
+</div>

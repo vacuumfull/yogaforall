@@ -12,6 +12,7 @@ class Appeal(models.Model):
     name = models.CharField(max_length=30, verbose_name="Имя")
     email = models.EmailField(max_length=254, verbose_name="Email", null=True, blank=True)
     phone = models.CharField(max_length=64, verbose_name="Номер телефона")
+    service = models.CharField(max_length=64, null=True, blank=True, verbose_name="Выбранная услуга")
     content = models.TextField(verbose_name="Сообщение", null=True, blank=True)
     is_checked = models.BooleanField(default=False, verbose_name="Обработана ли")
     created_at = models.DateTimeField(auto_now_add=True)

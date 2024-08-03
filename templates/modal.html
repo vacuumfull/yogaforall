@@ -11,6 +11,18 @@
   </div>
 </div>
 
+<div id="modal_slider" class="modal-container __closed">
+  <div class="modal">
+    <div class="modal-content">
+      <div class="modal-close" data-id="modal_slider">
+        <div class="close-lines"></div>
+        <div class="close-lines"></div>
+      </div>
+      <img src="" />
+    </div>
+  </div>
+</div>
+
 <div id="form_contact" class="modal-container __closed">
   <div class="modal">
       <div class="modal-content">
@@ -20,6 +32,7 @@
         </div>
         <p>Укажите свои контакты и я с вами свяжусь.</p>
         <form  method="post" enctype="multipart/form-data" action="" novalidate >
+          {% csrf_token %}
           <div class="errorblock">
               <p></p>
           </div>

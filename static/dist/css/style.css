@@ -1,7 +1,10 @@
+@import url('./slider.css');
+
 * {
     margin: 0;
     padding: 0;
 }
+
 @font-face {
     font-family: 'UrbanSlavic';
     src: url('../fonts/UrbanSlavic.otf');
@@ -122,6 +125,7 @@ header{
     height: auto;
 }
 .block{
+    position: relative;
     margin: 10px;
     flex: 1 300px;
 }
@@ -271,6 +275,10 @@ button{
     right: 0px;
     bottom: 0px;
 }
+#modal_success .modal{
+    min-height: 5vh;
+    max-height: 10vh;
+}
 .modal-container.__closed{
     left: -100%;
     opacity: 0;
@@ -289,10 +297,17 @@ button{
 .modal-close{
     cursor: pointer;
     position: absolute;
-    right: -1.2rem;
-    top: -2.5rem;
+    right: -3.2rem;
+    top: -4.5rem;
     width: 64px;
     height: 64px;
+}
+.modal input, .modal input:focus{
+    color: var(--orange);
+}
+
+.modal .input-block textarea, .modal .input-block textarea:focus{
+    color: var(--orange);
 }
 
 
@@ -761,6 +776,10 @@ a.menu_item:hover .menu_block{
     outline: none;
     background-color: transparent;
 }
+.input-block input[type=checkbox]{
+    width: 30px;
+}
+
 .input-block textarea{
     font-size: 1.4rem;
     font-family: 'Blue Curve';
@@ -784,8 +803,8 @@ a.menu_item:hover .menu_block{
     font-family: 'Blue Curve';
 }
 
-.input-block input:focus{
-    color: var(--orange);
+#common_form .input-block input:focus{
+    color: #fff;
     border: 2px solid var(--accent);
 }
 .modal button{
@@ -798,6 +817,18 @@ a.menu_item:hover .menu_block{
 }
 .__show_on_medium{
     display: none !important;
+}
+
+.__height{
+    min-height: 500px;
+}
+
+.modal img{
+    height: 100%;
+    display: block;
+    max-height: 90vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @keyframes lotos-top {
@@ -878,6 +909,27 @@ a.menu_item:hover .menu_block{
         padding-top: 5vh;
         padding-bottom: 5vh;
     }
+    .modal{
+        max-height: 90vh;
+        width: 90%;
+        border-radius: 25px;
+        padding: 4vh 1.5vh 0vh 1.5vh;
+    }
+    .modal-close{
+        transform: scale(0.6);
+    }
+    .modal button.__lg{
+        width: 100%;
+    }
+    .items-slider .button-container {
+        width: 275px;
+    }
+    
+    .modal-close{
+        right: -2rem;
+        top: -3rem;
+    }
+
 }
 
 

@@ -101,12 +101,14 @@
             </div>
         </div>
         <div class="flex-wrapper ">
-            <div class="block">
+            <div class="block __height">
                 <article>
                     {% autoescape off %}
                         {{ about.left_content }}
                     {% endautoescape %}
                 </article>
+
+                {% include 'slider.html' %}
             </div>
             <div class="block">
                 <div class="contact_info">
@@ -117,14 +119,15 @@
                     </p>
                 </div>
                 <div class="contact_me">
-                    <form class="contact_form">
+                    <form id="common_form" class="contact_form">
+                        {% csrf_token %}
                         <div class="input-block">
-                            <input type="text" class="input" placeholder="Ваше имя" />
+                            <input type="text" class="input" name="name" placeholder="Ваше имя" />
                         </div>
                         <div class="input-block">
-                            <input type="text" class="input" placeholder="Номер телефона" />
+                            <input type="text" class="input" name="phone" placeholder="Номер телефона" />
                         </div>
-                        <button class="btn __large">Отправить</button>
+                        <button type="submit" class="btn __large">Отправить</button>
                     </form>
                 </div>
             </div>
@@ -160,7 +163,7 @@
                             <p>{{ product.content }}</p>
                         </article>
                         <p class="price">Цена <span>{{ product.price.normalize }} ₽</span> за сеанс.</p>
-                        <button class="btn __large" data-slug="{{ product.slug }}">Заказать</button>
+                        <button class="btn __large __service_btn" data-slug="{{ product.name }}">Заказать</button>
                     </div>
                 </div>
             {% endfor %}
@@ -186,7 +189,7 @@
         <div class="flex-wrapper ">
             <div class="block ">
                 <div class="sectionhead">
-                    <h2 class="__deep_text_head_light">Отзывы</h2>
+                    <h2 class="__deep_text_head_light">{{ section_name.review_name }}</h2>
                 </div>
             </div>
         </div>
@@ -271,7 +274,10 @@ document.addEventListener('DOMContentLoaded', () => {
         menuItems = document.querySelectorAll('.list li a'),
         mobileItems = document.querySelectorAll('.sidenav li a'),
         cookieBtn = document.querySelector('.cookies .btn'),
-        closeModalIcons = document.querySelectorAll('.modal-close');
+        closeModalIcons = document.querySelectorAll('.modal-close'),
+        phoneForm = document.getElementById('common_form'),
+        contactForm = document.getElementById('form_contact'),
+        buttons = document.querySelectorAll('.__service_btn');
     
     mobileMenuIcon.addEventListener('click', (event) => {
         event.preventDefault()
@@ -284,16 +290,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    buttons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            let service = button.dataset.slug,
+                form = contactForm.querySelector('form');
+
+            contactForm.classList.remove('__closed')
+            form.querySelector('.selected_service').style.display = 'block'
+            form.querySelector('.selected_service input').value = service
+            form.querySelector('.selected_service label span').innerText = service
+        })
+    })
+
+    phoneForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let name = phoneForm.querySelector('input[name=name]').value,
+            phone = phoneForm.querySelector('input[name=phone]').value
+        
+        fillDataAndSend(name, phone)
+        phoneForm.querySelector('input[name=name]').value = ""
+        phoneForm.querySelector('input[name=phone]').value = ""
+    })
+
+    contactForm.querySelector('form').addEventListener('submit', (e) => {
+        e.preventDefault()
+        let name = contactForm.querySelector('input[name=name]').value,
+            phone = contactForm.querySelector('input[name=phone]').value,
+            email = contactForm.querySelector('input[name=email]').value,
+            content = contactForm.querySelector('textarea[name=content]').value,
+            service = contactForm.querySelector('input[name=service]').value;
+
+        fillDataAndSend(name, phone, email, content, service)
+    })
+
     closeModalIcons.forEach(icon => {
         icon.addEventListener('click', (e) => {
             let formId = icon.dataset.id
             document.getElementById(formId).classList.add('__closed')
         })
-    })
+    })  
 
     if (cookieBtn){
         cookieBtn.addEventListener('click', () => {
-            document.querySelector('.cookie').style.display = 'none'
+            document.querySelector('.cookies').style.display = 'none'
         })
     }
 
@@ -359,6 +398,70 @@ function removeClass(el, className)
         el.className = el.className.replace(reg, ' ');
     }
 }
+
+function fillDataAndSend(name, phone, email, content, service){
+    let url = '/api/appeal/add/'
+
+    let formData = new FormData();
+    formData.append('name', name)
+    if (phone === null && email === null){
+        document.querySelector("#form_contact .errorblock p").innerText = "Укажите телефон или почту для связи"
+        return false
+    }
+
+    formData.append('phone', phone)
+    if (email){
+        formData.append('email', email)
+    }
+    if (content){
+        formData.append('content', content)
+    }
+    if (service){
+        formData.append('service', service)
+    }
+    postData(url, formData).then(result => {
+        console.log(result)
+        if (result['result'] !== 0){
+            document.querySelector("#form_contact").classList.add('__closed')
+            document.querySelector("#form_contact .errorblock p").innerText = ""
+        }
+        let modalSuccess = document.getElementById('modal_success')
+        modalSuccess.classList.remove('__closed')
+        setTimeout(() => {
+            document.querySelector('#form_contact .selected_service').style.display = 'none';
+            document.querySelector('#form_contact .selected_service label input').checked = false
+            modalSuccess.classList.add('__closed')
+        }, 4000)
+    }).catch(e => {
+        console.error(e)
+    })
+}
+</script>
+<script src="{% static 'dist/js' %}/slider.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', (e) => {
+    let sliderItems= document.querySelectorAll('.item-slider'),
+        modalSlider = document.getElementById('modal_slider')
+
+    sliderItems.forEach((item) => {
+        item.addEventListener('click', (e) => {
+            if (hasClass(item, 'active')){
+                modalSlider.classList.remove('__closed')
+                let sourceImage = item.querySelector('img')
+                console.log(sourceImage.naturalHeight, sourceImage.naturalWidth)
+                if (window.innerWidth <= window.innerHeight){
+                    modalSlider.querySelector('img').style.width = '100%'
+                    modalSlider.querySelector('img').style.height = 'auto'
+                } else {
+                    modalSlider.querySelector('img').style.height = '100%'
+                    modalSlider.querySelector('img').style.width = 'auto'
+                }
+                modalSlider.querySelector('img').src = item.querySelector('img').src
+            }
+        })
+    })
+
+})
 </script>
 
 {% endblock js %}

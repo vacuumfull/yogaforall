@@ -7,6 +7,7 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import appeal.api
+import requests
 
 
 
@@ -18,7 +19,9 @@ def add_appeal(request):
     name = request.POST.get('name')
     phone = request.POST.get('phone')
     email = request.POST.get('email', None)
-    content = request.POST.get('content')
+    content = request.POST.get('content', None)
+    service = request.POST.get('service', None)
+
 
     request.session['last_send'] = datetime.now().strftime(r'%x %X')
     print('last_send ', last_send)
@@ -28,8 +31,11 @@ def add_appeal(request):
             result = {'error': 'Too many query per minutes!'}
             return JsonResponse(result)
     
-    appeal_result = getattr(_load_module('appeal'), 'add')(name, phone, email, content)
-    
+   
+    appeal_result = getattr(_load_module('appeal'), 'add')(name, phone, email, content, service)
+    text = f'Новое обращение от {name} {phone}'
+
+    requests.get(settings.TG_API_URL + text)
     result['result'] = appeal_result.id if appeal_result else 0
 
     return JsonResponse(result)
