@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_zntee@+dxu84t_6y9-xzpxxy-!n$c-l4g%*m%x2*79%-h7$)6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('IS_DEBUG') == "true"
 
-ALLOWED_HOSTS = ['*'] if DEBUG else [os.getenv('PROJECT_HOST', 'localhost')]
+ALLOWED_HOSTS = ['*'] if DEBUG else [os.getenv('PROJECT_HOST', 'localhost'), 'yogaforlive.ru']
 
 PROJECT_APPS = [
     'appeal',
